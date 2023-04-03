@@ -2,31 +2,34 @@
 #define MATRIX_H
 
 #include <array>
-
+#include <vector>
 
 class Matrix {
 public:
     Matrix();
+    Matrix(double rows, double columns);
     
-    std::array<double, 2> TwoXTwoTopRow() const;
-    std::array<double, 2> TwoXTwoBottomRow() const;
+    double GetRows() const;
+    double GetColumns() const;
+    std::vector<std::vector<double> > GetMatrix() const;
 
-    std::array<std::array<double, 2>, 2> TwoXTwoMatrix() const;
+    std::vector<std::vector<double> > GetValues();
 
-    void TwoXTwoSetTopRow(const std::array<double, 2>& top_row);
-    void TwoXTwoSetBottomRow(const std::array<double, 2>& bottom_row);
+    void SetRows(const double rows);
+    void SetColumns(const double columns);
 
+    void SetNewValues(const std::vector<std::vector<double> > new_values);
 
-    std::array<std::array<double, 2>, 2> CombinedTwoXTwo(const std::array<double, 2>& top_row, const std::array<double, 2>& bottom_row);
-    std::array<std::array<double, 2>, 2> Multiplication2X2Scalar(double number);
-    Matrix MultiplyMatrix(Matrix& a) const;
+    Matrix ScalarMultiplication(Matrix& matrix, double scalar) const;
+    Matrix MultiplyMatrix(Matrix& a, Matrix& b, bool not_a_match);
+    Matrix AddMatrix(Matrix& a, Matrix& b, bool not_a_match);
+
 
     void Print() const;
 
 private:
-    std::array<double, 2> top_row_;
-    std::array<double, 2> bottom_row_;
-    std::array<std::array<double, 2>, 2> matrix_;
+    double rows_, colums_;
+    std::vector<std::vector<double> > matrix_;
 };
 
 #endif

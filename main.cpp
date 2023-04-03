@@ -1,36 +1,54 @@
 #include <iostream>
+#include <vector>
 
 #include "matrix.cpp"
 
-#include <array>
 
 int main() {
 
-    Matrix matrix_a;
-    std::array<double, 2> matrix_a_top_row = {1, 1};
-    matrix_a.TwoXTwoSetTopRow(matrix_a_top_row);
-    std::array<double, 2> matrix_a_bottom_row = {1, 1};
-    matrix_a.TwoXTwoSetBottomRow(matrix_a_bottom_row);
+/* testing it so far */
 
-    matrix_a.CombinedTwoXTwo(matrix_a_top_row, matrix_a_bottom_row);
-    std::cout << "\n=== FIRST TRY ===\n";
-    matrix_a.Print();
+    Matrix newMatrix; 
 
-    matrix_a.Multiplication2X2Scalar(2);
-    std::cout << "\n=== SECOND TRY ===\n";
-    matrix_a.Print();
+    int rows, cols;
+    std::cout << "Enter number of rows and columns: ";
+    std::cin >> rows >> cols;
 
-    Matrix matrix_b;
+    newMatrix.SetRows(rows);
+    newMatrix.SetColumns(cols);
+
+    newMatrix.GetValues();
+
+    newMatrix.Print();
+
+    /* Weird bug here if I try to add [6, 10]^T to matrix b*/
+    // newMatrix.ScalarMultiplication(newMatrix, 2);
+    // newMatrix.Print();
+
+
+   /* Multiplying Matrix */ 
+
+  
+
+    Matrix b;
+    b.SetRows(2);
+    b.SetColumns(1);
+    b.GetValues();
+
+    b.GetMatrix();
+
+
+    bool match;
     
-    std::array<double, 2> matrix_b_top_row = {1, 1};
-    matrix_b.TwoXTwoSetTopRow(matrix_b_top_row);
-    std::array<double, 2> matrix_b_bottom_row = {1, 1};
-    matrix_b.TwoXTwoSetBottomRow(matrix_b_bottom_row);
+    newMatrix.MultiplyMatrix(newMatrix, b, match);
 
-    matrix_b.CombinedTwoXTwo(matrix_b_top_row, matrix_b_bottom_row);
-            
-    /* multiple matrix a and b */
-    matrix_a = matrix_a.MultiplyMatrix(matrix_b);
-    std::cout << "\n=== THIRD TRY ===\n";
-    matrix_a.Print();
+   
+    newMatrix.Print();
+
+
+    // newMatrix.AddMatrix(newMatrix, b, match);
+    // newMatrix.Print();
+    
+
+    return 0;
 }

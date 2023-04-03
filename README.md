@@ -8,10 +8,11 @@ P.S. I kind of get bored and make small things like this for fun and to learn, I
 ## To Do
 - [x] Scalar Multiplication
 - [x] 2x2 Matrix Multiplcation
-- [ ] 3x3 Matrix Multiplication
-- [ ] Matrix Addition/Subtraction
-- [ ] Matrix Arithmetic Flexibility
+- [x] 3x3 Matrix Multiplication
+- [x] Matrix Addition/Subtraction
+- [x] Matrix Size Flexibility
 - [ ] Any other things taught in class
+- [ ] Transpose
 
 ## Future To Do's
 - [ ] Identity Multiplication
