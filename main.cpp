@@ -19,6 +19,11 @@ int main() {
 
     newMatrix.GetValues();
 
+    
+
+   
+
+    newMatrix.Transpose(newMatrix);
     newMatrix.Print();
 
     /* Weird bug here if I try to add [6, 10]^T to matrix b*/
@@ -30,20 +35,17 @@ int main() {
 
   
 
-    Matrix b;
-    b.SetRows(2);
-    b.SetColumns(1);
-    b.GetValues();
+    // Matrix b;
+    // b.SetRows(2);
+    // b.SetColumns(1);
+    // b.GetValues();
 
-    b.GetMatrix();
-
-
-    bool match;
+    // bool match;
     
-    newMatrix.MultiplyMatrix(newMatrix, b, match);
+    // // newMatrix.MultiplyMatrix(newMatrix, b, match);
 
    
-    newMatrix.Print();
+    // // newMatrix.Print();
 
 
     // newMatrix.AddMatrix(newMatrix, b, match);
