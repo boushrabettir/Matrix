@@ -22,8 +22,10 @@ public:
 
     Matrix ScalarMultiplication(Matrix& matrix, double scalar) const;
     Matrix MultiplyMatrix(Matrix& a, Matrix& b, bool not_a_match);
-    Matrix AddMatrix(Matrix& a, Matrix& b, bool not_a_match);
+    Matrix Arithmetic(Matrix& a, Matrix& b, bool negative);
     Matrix Transpose(Matrix& a);
+    Matrix Lamda(Matrix& a);
+    Matrix REF(Matrix& a);
 
 
     void Print() const;

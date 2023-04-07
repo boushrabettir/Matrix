@@ -4,8 +4,7 @@
 #include <algorithm>
 #include <array>
 
-Matrix::Matrix() : rows_(0), colums_(0), matrix_(std::make_shared<std::vector<std::vector<double> > >(0, std::vector<double>(0))) {}
-
+Matrix::Matrix() : rows_(0), colums_(0), matrix_(std::make_shared<std::vector<std::vector<double> > >(0, std::vector<double>(0))){}
 Matrix::Matrix(size_t rows, size_t columns) : rows_(rows), colums_(columns), matrix_(std::make_shared<std::vector<std::vector<double> > >(rows, std::vector<double>(columns))) {}
 
 
@@ -19,14 +18,14 @@ void Matrix::SetRows(const size_t rows) {
     rows_ = rows;
     matrix_->resize(rows_);
     for (std::vector<double>& row : *matrix_) {
-        row.resize(colums_);
+        row.resize(rows_);
     }
 }
 
 void Matrix::SetColumns(const size_t columns) {
     colums_ = columns;
-    for (std::vector<double>& row : *matrix_) {
-        row.resize(colums_);
+    for (std::vector<double>& columns : *matrix_) {
+        columns.resize(colums_);
     }
 }
 
@@ -61,6 +60,7 @@ Matrix Matrix::ScalarMultiplication(Matrix& matrix, double scalar) const {
     double columns = matrix.GetColumns();
     std::shared_ptr<std::vector<std::vector<double> > > m = matrix.GetMatrix();
     auto DEREFERNCED = *m;
+     std::cout << "Pointers pointing to matrix_: " <<  m.use_count() << "\n";
 
     for(int i = 0; i < rows; i++) {
         for(int j = 0; j < columns; j++) {
@@ -74,7 +74,7 @@ Matrix Matrix::ScalarMultiplication(Matrix& matrix, double scalar) const {
     return matrix;
 }
 
-Matrix Matrix::AddMatrix(Matrix& a, Matrix& b, bool not_a_match) {
+Matrix Matrix::Arithmetic(Matrix& a, Matrix& b, bool negative) {
     double row_a = a.GetRows();
     double column_a = a.GetColumns();
 
@@ -89,10 +89,12 @@ Matrix Matrix::AddMatrix(Matrix& a, Matrix& b, bool not_a_match) {
     auto DEREFERNCED_A = *matrix_a;
     auto DEREFERNCED_B = *matrix_b;
 
+    /* weird bug */
 
        for (int i = 0; i < row_a; i++) {
         for (int j = 0; j < column_a; j++) {
-            DEREFERNCED_A[i][j] += DEREFERNCED_B[i][j];
+            if(negative) DEREFERNCED_A[i][j] -= DEREFERNCED_B[i][j];
+            else DEREFERNCED_A[i][j] += DEREFERNCED_B[i][j];
         }
     }
     
@@ -138,41 +140,61 @@ Matrix Matrix::MultiplyMatrix(Matrix& a, Matrix& b, bool not_a_match) {
     return a;
 }
 
-Matrix Matrix::Transpose(Matrix& a) {
-    /*
-         00   10
-        [ 2 , 1 ]
-
-
-        [ 2 ] 00
-        [ 1 ] 01
-
-        for every row it becomes a column
-        for every column it becomes a row
-    */
-   
-    double row_a = a.GetColumns();
-    double column_a = a.GetRows();
-
-    std::shared_ptr<std::vector<std::vector<double> > > first = a.GetMatrix();
-    auto DEREFERNCED_FIRST = *first;   
+Matrix Matrix::Lamda(Matrix& a) {
+    size_t rows = a.GetRows();
+    size_t columns = a.GetColumns();
     
 
+    /* Lamba Stuff */
 
-   std::vector<std::vector<double> > trying(column_a, std::vector<double> (row_a));
-
-
-   for (int i = 0; i < row_a; i++) {
-        /* row becomes a column */
-        for (int j = 0; j < column_a; j++) {
-            /* columb becomes row */
-            trying[j][i] = DEREFERNCED_FIRST[i][j];
-             
+    for (size_t i = 0; i < rows; i++) {
+        for (size_t j = 0; j < columns; j++) {
+            
         }
     }
 
-    Matrix result_try;
-    result_try.SetNewValues(trying);
-    a = result_try;
+}
+
+Matrix Matrix::REF(Matrix& a) {
+    size_t rows = a.GetRows();
+    size_t columns = a.GetColumns();
+    std::shared_ptr<std::vector<std::vector<double> > > m = a.GetMatrix();
+    /*
+
+        [ 2  2 ]
+        [ 1  4 ]
+
+        oof this will b hard D:
+    
+        we look at 0,0, and examine the number below it : 1,0, we can do a couple of things
+        we store 1,0 into a variable.
+        
+            1) if we divide and % == 0, 
+    
+    */
+
+    for (size_t i = 0; i < rows; i++) {
+        for (size_t j = 0; j < columns; j++) {
+           
+        }
+    }
+
+}
+
+Matrix Matrix::Transpose(Matrix& a) {
+    size_t rows = a.GetRows();
+    size_t columns = a.GetColumns();
+    std::shared_ptr<std::vector<std::vector<double> > > m = a.GetMatrix();
+    std::cout << "Pointers pointing to matrix_: " <<  m.use_count() << "\n";
+    auto DEREFERNCED = *m;
+    std::vector<std::vector<double> > transposed(columns, std::vector<double>(rows));
+
+    for (size_t i = 0; i < rows; i++) {
+        for (size_t j = 0; j < columns; j++) {
+            transposed[j][i] = DEREFERNCED[i][j];
+        }
+    }
+
+    a.SetNewValues(transposed);
     return a;
 }

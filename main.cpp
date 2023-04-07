@@ -10,12 +10,10 @@ int main() {
 
     Matrix newMatrix; 
 
-    int rows, cols;
-    std::cout << "Enter number of rows and columns: ";
-    std::cin >> rows >> cols;
 
-    newMatrix.SetRows(rows);
-    newMatrix.SetColumns(cols);
+
+    newMatrix.SetRows(2);
+    newMatrix.SetColumns(1);
 
     newMatrix.GetValues();
 
@@ -23,12 +21,17 @@ int main() {
 
    
 
+    std::cout << "Transposed: " << "\n";
     newMatrix.Transpose(newMatrix);
+    newMatrix.Print();
+
+     std::cout << "!Transposed: " << "\n";
+     newMatrix.Transpose(newMatrix);
     newMatrix.Print();
 
     /* Weird bug here if I try to add [6, 10]^T to matrix b*/
     // newMatrix.ScalarMultiplication(newMatrix, 2);
-    // newMatrix.Print();
+    //  newMatrix.Print();
 
 
    /* Multiplying Matrix */ 
@@ -37,7 +40,7 @@ int main() {
 
     // Matrix b;
     // b.SetRows(2);
-    // b.SetColumns(1);
+    // b.SetColumns(2);
     // b.GetValues();
 
     // bool match;
@@ -48,7 +51,7 @@ int main() {
     // // newMatrix.Print();
 
 
-    // newMatrix.AddMatrix(newMatrix, b, match);
+    // newMatrix.Arithmetic(newMatrix, b, true);
     // newMatrix.Print();
     
 
