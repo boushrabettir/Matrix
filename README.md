@@ -14,7 +14,8 @@ P.S. I kind of get bored and make small things like this for fun and to learn, I
 - [x] Matrix Addition/Subtraction
 - [x] Matrix Size Flexibility
 - [ ] Any other things taught in class
-- [ ] Transpose
+- [x] Transpose
+- [ ] Identity Multiplication
 
 ## Future To Do's
 - [ ] Identity Multiplication
