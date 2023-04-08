@@ -15,6 +15,7 @@ P.S. I kind of get bored and make small things like this for fun and to learn, I
 - [x] Matrix Size Flexibility
 - [ ] Any other things taught in class
 - [x] Transpose
+- [x] Inverse of 2x2
 - [ ] Identity Multiplication
 
 ## Future To Do's
