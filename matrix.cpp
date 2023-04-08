@@ -3,6 +3,7 @@
 #include "matrix.h"
 #include <algorithm>
 #include <array>
+#include <iomanip>
 
 Matrix::Matrix() : rows_(0), colums_(0), matrix_(std::make_shared<std::vector<std::vector<double> > >(0, std::vector<double>(0))){}
 Matrix::Matrix(size_t rows, size_t columns) : rows_(rows), colums_(columns), matrix_(std::make_shared<std::vector<std::vector<double> > >(rows, std::vector<double>(columns))) {}
@@ -34,10 +35,12 @@ void Matrix::SetNewValues(const std::vector<std::vector<double> > new_values) {
 };
 
 void Matrix::Print() const {
+
     for (const std::vector<double>& row : *matrix_) {
         std::cout << "[ ";
         for (const double& elem : row) {
-            std::cout << elem << " ";
+            if(abs(elem - (int)elem) < 0.01) std::cout << std::setprecision(2) << elem << " ";
+            else std::cout << std::setprecision(0) << elem << " ";
         }
         std::cout << "]\n";
     }
@@ -68,9 +71,8 @@ Matrix Matrix::ScalarMultiplication(Matrix& matrix, double scalar) const {
         }
     }
 
-    Matrix a;
-    a.SetNewValues(DEREFERNCED);
-    matrix = a;
+
+    matrix.SetNewValues(DEREFERNCED);
     return matrix;
 }
 
@@ -98,10 +100,8 @@ Matrix Matrix::Arithmetic(Matrix& a, Matrix& b, bool negative) {
         }
     }
     
-    Matrix final_matrix;
-    final_matrix.SetNewValues(DEREFERNCED_A);
-    a = final_matrix;
     
+    a.SetNewValues(DEREFERNCED_A);    
     return a;
 }
 
@@ -133,10 +133,8 @@ Matrix Matrix::MultiplyMatrix(Matrix& a, Matrix& b, bool not_a_match) {
         not_a_match = true;
     }
 
-    Matrix final_matrix;
-    final_matrix.SetNewValues(DEREFERNCED_FIRST);
-    a = final_matrix;
     
+    a.SetNewValues(DEREFERNCED_FIRST); 
     return a;
 }
 
@@ -155,30 +153,25 @@ Matrix Matrix::Lamda(Matrix& a) {
 
 }
 
-Matrix Matrix::REF(Matrix& a) {
-    size_t rows = a.GetRows();
-    size_t columns = a.GetColumns();
+Matrix Matrix::Inverse(Matrix& a) {
     std::shared_ptr<std::vector<std::vector<double> > > m = a.GetMatrix();
-    /*
+    auto DEF = *m;
 
-        [ 2  2 ]
-        [ 1  4 ]
+    double scalar = DEF[0][0] * DEF[1][1] - DEF[1][0] * DEF[0][1];
 
-        oof this will b hard D:
+    if(scalar == 0)  throw std::runtime_error("2x2 Matrix is not invertible!");
+
+    DEF[1][0] = (DEF[1][0] * -1) / scalar;
+    DEF[0][1] = (DEF[0][1] * -1) / scalar;
+    DEF[0][0] = DEF[0][0] / scalar;
+    DEF[1][1] = DEF[1][1] / scalar;
+    std::swap(DEF[0][0], DEF[1][1]);
     
-        we look at 0,0, and examine the number below it : 1,0, we can do a couple of things
-        we store 1,0 into a variable.
-        
-            1) if we divide and % == 0, 
-    
-    */
+    a.SetNewValues(DEF);
 
-    for (size_t i = 0; i < rows; i++) {
-        for (size_t j = 0; j < columns; j++) {
-           
-        }
-    }
 
+
+    return a;
 }
 
 Matrix Matrix::Transpose(Matrix& a) {

@@ -25,7 +25,7 @@ public:
     Matrix Arithmetic(Matrix& a, Matrix& b, bool negative);
     Matrix Transpose(Matrix& a);
     Matrix Lamda(Matrix& a);
-    Matrix REF(Matrix& a);
+    Matrix Inverse(Matrix& a);
 
 
     void Print() const;

@@ -13,21 +13,21 @@ int main() {
 
 
     newMatrix.SetRows(2);
-    newMatrix.SetColumns(1);
+    newMatrix.SetColumns(2);
 
     newMatrix.GetValues();
-
+    newMatrix.Inverse(newMatrix);
     
-
+    newMatrix.Print();
    
 
-    std::cout << "Transposed: " << "\n";
-    newMatrix.Transpose(newMatrix);
-    newMatrix.Print();
+    // std::cout << "Transposed: " << "\n";
+    // newMatrix.Transpose(newMatrix);
+    // newMatrix.Print();
 
-     std::cout << "!Transposed: " << "\n";
-     newMatrix.Transpose(newMatrix);
-    newMatrix.Print();
+    //  std::cout << "!Transposed: " << "\n";
+    //  newMatrix.Transpose(newMatrix);
+    // newMatrix.Print();
 
     /* Weird bug here if I try to add [6, 10]^T to matrix b*/
     // newMatrix.ScalarMultiplication(newMatrix, 2);
