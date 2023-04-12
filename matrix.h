@@ -19,12 +19,13 @@ public:
     void SetColumns(const size_t columns);
 
     void SetNewValues(const std::vector<std::vector<double> > new_values);
+    std:: vector<std::shared_ptr<double>> MiddleElements(Matrix& a) const;
 
     Matrix ScalarMultiplication(Matrix& matrix, double scalar) const;
     Matrix MultiplyMatrix(Matrix& a, Matrix& b, bool not_a_match);
     Matrix Arithmetic(Matrix& a, Matrix& b, bool negative);
     Matrix Transpose(Matrix& a);
-    Matrix Lamda(Matrix& a);
+    Matrix REF(Matrix& a);
     Matrix Inverse(Matrix& a);
 
 

@@ -39,7 +39,7 @@ void Matrix::Print() const {
     for (const std::vector<double>& row : *matrix_) {
         std::cout << "[ ";
         for (const double& elem : row) {
-            if(abs(elem - (int)elem) < 0.01) std::cout << std::setprecision(2) << elem << " ";
+            if(std::abs(elem - (int)elem) >= 0.01) std::cout << std::setprecision(2) << elem << " ";
             else std::cout << std::setprecision(0) << elem << " ";
         }
         std::cout << "]\n";
@@ -138,18 +138,71 @@ Matrix Matrix::MultiplyMatrix(Matrix& a, Matrix& b, bool not_a_match) {
     return a;
 }
 
-Matrix Matrix::Lamda(Matrix& a) {
+std::vector<std::shared_ptr<double>> Matrix::MiddleElements(Matrix& a) const {
+    /*
+        Here we get the matrix, we loop through the values and push in the middle elemnts
+        11
+        22
+        33
+        44 etc. 
+        until theres no more
+    */
+
     size_t rows = a.GetRows();
     size_t columns = a.GetColumns();
-    
+    std::shared_ptr<std::vector<std::vector<double> > > m = a.GetMatrix();
+    auto DEF = *m;
 
-    /* Lamba Stuff */
+    std::vector<std::shared_ptr<double>> middle_elements;
 
-    for (size_t i = 0; i < rows; i++) {
-        for (size_t j = 0; j < columns; j++) {
-            
+     for (int i = 0; i < rows; i++) {
+        for (int j = 0; j < columns; j++) {
+            if(DEF[i] == DEF[j]) {
+                middle_elements.push_back(std::make_shared<double>(DEF[i][j]));
+            }
         }
+     }
+
+    return middle_elements;
+}
+
+Matrix Matrix::REF(Matrix& a) {
+    size_t rows = a.GetRows();
+    size_t columns = a.GetColumns();
+    std::shared_ptr<std::vector<std::vector<double> > > m = a.GetMatrix();
+    auto DEF = *m;
+
+    std::vector<std::shared_ptr<double>> middle_elements = this->MiddleElements(a);
+    // [4 2; 3 4]; ===> 4 4
+    for(auto thisone : middle_elements) {
+        std::cout << *thisone << "\n";
     }
+
+    
+        int counter = 0;
+        for (int i = 0; i < rows  - 1; i++) {
+            for (int j = 0; j < columns; j++) {
+                if(*middle_elements[counter] != 1) DEF[i][j] /= *middle_elements[counter];
+                  DEF[i][j] *= DEF[i + 1][j];
+                   if(DEF[i + 1][j] < 0) DEF[i + 1][j] = DEF[i][j] + DEF[i + 1][j];
+                   else if (DEF[i + 1][j] > 0) DEF[i + 1][j] = DEF[i][j] - DEF[i + 1][j];
+
+                    if(*middle_elements[counter] != 1) DEF[i][j] /= DEF[i][j];
+              
+             
+            }
+             counter += 1;    
+        }
+
+        /*
+            Recieving
+             [ 1 1 ]
+            [ 0 -2 ]
+            not what i want
+        */
+
+    a.SetNewValues(DEF);
+    return a;
 
 }
 
