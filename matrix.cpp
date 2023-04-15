@@ -2,6 +2,7 @@
 
 #include "matrix.h"
 #include <algorithm>
+#include <utility>
 #include <array>
 #include <iomanip>
 
@@ -170,41 +171,38 @@ Matrix Matrix::REF(Matrix& a) {
     size_t rows = a.GetRows();
     size_t columns = a.GetColumns();
     std::shared_ptr<std::vector<std::vector<double> > > m = a.GetMatrix();
-    auto DEF = *m;
+    auto& DEF = *m;
 
-    std::vector<std::shared_ptr<double>> middle_elements = this->MiddleElements(a);
-    // [4 2; 3 4]; ===> 4 4
-    for(auto thisone : middle_elements) {
-        std::cout << *thisone << "\n";
-    }
+    int middle_number = 0;
 
-    
-        int counter = 0;
-        for (int i = 0; i < rows  - 1; i++) {
-            for (int j = 0; j < columns; j++) {
-                if(*middle_elements[counter] != 1) DEF[i][j] /= *middle_elements[counter];
-                  DEF[i][j] *= DEF[i + 1][j];
-                   if(DEF[i + 1][j] < 0) DEF[i + 1][j] = DEF[i][j] + DEF[i + 1][j];
-                   else if (DEF[i + 1][j] > 0) DEF[i + 1][j] = DEF[i][j] - DEF[i + 1][j];
+    /* If [0][0] is not 1, divide the entire row by [0][0] */
+    for (int row = 0; row < rows; row++) {
+        if (middle_number >= columns) break;
 
-                    if(*middle_elements[counter] != 1) DEF[i][j] /= DEF[i][j];
-              
-             
+        if (DEF[middle_number][middle_number] != 1) {
+            double factor = DEF[middle_number][middle_number];
+            for (int column = 0; column < columns; column++) {
+                DEF[middle_number][column] /= factor;
             }
-             counter += 1;    
         }
 
-        /*
-            Recieving
-             [ 1 1 ]
-            [ 0 -2 ]
-            not what i want
-        */
+        for (int next_row = row + 1; next_row < rows; next_row++) {
+            if (DEF[next_row][middle_number] != 0) {
+                double factor = DEF[next_row][middle_number];
+                for (int column = 0; column < columns; column++) {
+                    DEF[next_row][column] = (DEF[middle_number][column] * factor) - DEF[next_row][column];
+                }
+                std::swap(DEF[next_row], DEF[row + 1]);
+            }
+        }
+
+        middle_number++;
+    }
 
     a.SetNewValues(DEF);
     return a;
-
 }
+
 
 Matrix Matrix::Inverse(Matrix& a) {
     std::shared_ptr<std::vector<std::vector<double> > > m = a.GetMatrix();
