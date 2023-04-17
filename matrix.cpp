@@ -2,6 +2,7 @@
 
 #include "matrix.h"
 #include <algorithm>
+#include <utility>
 #include <array>
 #include <iomanip>
 
@@ -175,7 +176,7 @@ Matrix Matrix::REF(Matrix& a) {
     size_t rows = a.GetRows();
     size_t columns = a.GetColumns();
     std::shared_ptr<std::vector<std::vector<double> > > m = a.GetMatrix();
-    auto DEF = *m;
+    auto& DEF = *m;
 
     std::vector<std::shared_ptr<double> > middle_elements = this->MiddleElements(a);
     // [4 2; 3 4]; ===> 4 4
@@ -260,17 +261,12 @@ Matrix Matrix::REF(Matrix& a) {
     //          counter += 1;    
     //     }
 
-        /*
-            Recieving
-             [ 1 1 ]
-            [ 0 -2 ]
-            not what i want
-        */
+       
 
     a.SetNewValues(DEF);
     return a;
-
 }
+
 
 Matrix Matrix::Inverse(Matrix& a) {
     std::shared_ptr<std::vector<std::vector<double> > > m = a.GetMatrix();
