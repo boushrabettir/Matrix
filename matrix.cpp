@@ -179,11 +179,7 @@ Matrix Matrix::REF(Matrix& a) {
     auto& DEF = *m;
 
     std::vector<std::shared_ptr<double> > middle_elements = this->MiddleElements(a);
-    // [4 2; 3 4]; ===> 4 4
-    // for(auto thisone : middle_elements) {
-    //     std::cout << *thisone << "\n";
-    // }
-
+ 
     int increase_counter = 0;
     std::vector<int> index_in_memory;
 
@@ -193,6 +189,7 @@ Matrix Matrix::REF(Matrix& a) {
             if(DEF[increase_counter][increase_counter] >= columns) {
                 break;
             } else if(DEF[increase_counter][increase_counter] == 0) {
+                /* TODO: here we need to search through the rows to see if a 0 exists first*/
                 for(int k = 1; k < rows; k++) {
                     if(DEF[k][j] == 1 || DEF[k][j] > 1 || DEF[k][j] < 1) {
                         index_in_memory.push_back(k);
@@ -203,6 +200,7 @@ Matrix Matrix::REF(Matrix& a) {
                 for(int m = 0; m < columns; m++) {
                      std::swap(DEF[increase_counter][m], DEF[index_in_memory[increase_counter]][m]);
                 }
+                
                 increase_counter+=1;
 
                 if(DEF[increase_counter][j] == 0) {
@@ -212,56 +210,37 @@ Matrix Matrix::REF(Matrix& a) {
                 }
                
 
-                      
+                a.REF(a); // recursion a best friend
             }
 
             increase_counter = 0;
-        double diag_element = DEF[increase_counter][increase_counter];
-        for(int l = 0; l < columns; l++) {
-            DEF[increase_counter][l] /= diag_element;
-        }
+          
 
-        increase_counter +=1;
-                
-            
-            // } else {
-            //     if(DEF[increase_counter][increase_counter] == 0) {
-            //         std::swap(DEF[increase_counter][j], DEF[increase_counter + 1][j]);
-            //     }
-            //     DEF[increase_counter][j] = DEF[increase_counter][j] / *middle_elements[increase_counter];
-            // }
+            /* TODO: Make sure this divides the next row at DEF[1][l]*/
+            do {
 
+                double diag_element = DEF[increase_counter][increase_counter];
+                 
+                for(int l = 0; l < columns; l++) {
+                    DEF[increase_counter][l] /= diag_element;
+                }
+                increase_counter++;
             
-            // DEF[increase_counter + 1][j] = (DEF[increase_counter][increase_counter] * DEF[increase_counter + 1][increase_counter]) - DEF[increase_counter][increase_counter];
-            // increase_counter += 1;
+
+            } while(DEF[increase_counter][j] == 1);
+          
            
-            
+           
+
+           
+            /* TODO: Make a better implementation for the 0'th case lol. */
+            /* TODO: Make a implementation for cases that aren't 0 */
+            /* TODO: Think about edge cases. */
+           
         }
     }
     
-    //     int counter = 0;
-    //     for (int i = 0; i < rows  - 1; i++) {
-    //         for (int j = 0; j < columns; j++) {
-    //             if(*middle_elements[counter] != 1) {
-    //                 DEF[i][j] /= *middle_elements[counter];
-    //             }
-
-    //               DEF[i][j] *= DEF[i + 1][j];
-
-    //             if(DEF[i + 1][j] < 0) {
-    //                 DEF[i + 1][j] = DEF[i][j] + DEF[i + 1][j];
-    //             } else if (DEF[i + 1][j] > 0) {
-    //                  DEF[i + 1][j] = DEF[i][j] - DEF[i + 1][j];
-    //             }
-
-    //             if(*middle_elements[counter] != 1) DEF[i][j] /= DEF[i][j];
-              
-             
-    //         }
-    //          counter += 1;    
-    //     }
-
-       
+    
 
     a.SetNewValues(DEF);
     return a;
