@@ -19,7 +19,7 @@ public:
     void SetColumns(const size_t columns);
 
     void SetNewValues(const std::vector<std::vector<double> > new_values);
-    std:: vector<std::shared_ptr<double>> MiddleElements(Matrix& a) const;
+    std:: vector<std::shared_ptr<double> > MiddleElements(Matrix& a) const;
 
     Matrix ScalarMultiplication(Matrix& matrix, double scalar) const;
     Matrix MultiplyMatrix(Matrix& a, Matrix& b, bool not_a_match);

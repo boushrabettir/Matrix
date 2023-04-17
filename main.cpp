@@ -13,13 +13,16 @@ int main() {
 
 
     newMatrix.SetRows(3);
-    newMatrix.SetColumns(4);
+    newMatrix.SetColumns(3);
 
     newMatrix.GetValues();
     newMatrix.Print();
+    std::cout << "\n\n";
     newMatrix.REF(newMatrix);
-    std::cout << "Here is your REF matrix" << std::endl;
     newMatrix.Print();
+    // newMatrix.REF(newMatrix);
+    // std::cout << "Here is your REF matrix" << std::endl;
+
 
     // std::cout << "Transposed: " << "\n";
     // newMatrix.Transpose(newMatrix);

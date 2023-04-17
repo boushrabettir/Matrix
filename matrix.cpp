@@ -138,7 +138,7 @@ Matrix Matrix::MultiplyMatrix(Matrix& a, Matrix& b, bool not_a_match) {
     return a;
 }
 
-std::vector<std::shared_ptr<double>> Matrix::MiddleElements(Matrix& a) const {
+std::vector<std::shared_ptr<double> > Matrix::MiddleElements(Matrix& a) const {
     /*
         Here we get the matrix, we loop through the values and push in the middle elemnts
         11
@@ -153,7 +153,7 @@ std::vector<std::shared_ptr<double>> Matrix::MiddleElements(Matrix& a) const {
     std::shared_ptr<std::vector<std::vector<double> > > m = a.GetMatrix();
     auto DEF = *m;
 
-    std::vector<std::shared_ptr<double>> middle_elements;
+    std::vector<std::shared_ptr<double> > middle_elements;
 
      for (int i = 0; i < rows; i++) {
         for (int j = 0; j < columns; j++) {
@@ -166,33 +166,99 @@ std::vector<std::shared_ptr<double>> Matrix::MiddleElements(Matrix& a) const {
     return middle_elements;
 }
 
+/* Very ugly implementation. I am just getting an idea of how to go about this. Will use 
+help from other functions since this is quite impossible IMO to do for me in one member function. 
+i think instead of considering all cases, i could generally just have two main cases
+*/
+
 Matrix Matrix::REF(Matrix& a) {
     size_t rows = a.GetRows();
     size_t columns = a.GetColumns();
     std::shared_ptr<std::vector<std::vector<double> > > m = a.GetMatrix();
     auto DEF = *m;
 
-    std::vector<std::shared_ptr<double>> middle_elements = this->MiddleElements(a);
+    std::vector<std::shared_ptr<double> > middle_elements = this->MiddleElements(a);
     // [4 2; 3 4]; ===> 4 4
-    for(auto thisone : middle_elements) {
-        std::cout << *thisone << "\n";
+    // for(auto thisone : middle_elements) {
+    //     std::cout << *thisone << "\n";
+    // }
+
+    int increase_counter = 0;
+    std::vector<int> index_in_memory;
+
+    for(int i = 0; i < rows; i++) {
+        for(int j = 0; j < columns; j++) {
+
+            if(DEF[increase_counter][increase_counter] >= columns) {
+                break;
+            } else if(DEF[increase_counter][increase_counter] == 0) {
+                for(int k = 1; k < rows; k++) {
+                    if(DEF[k][j] == 1 || DEF[k][j] > 1 || DEF[k][j] < 1) {
+                        index_in_memory.push_back(k);
+                    }
+                }
+
+                /* Change this */
+                for(int m = 0; m < columns; m++) {
+                     std::swap(DEF[increase_counter][m], DEF[index_in_memory[increase_counter]][m]);
+                }
+                increase_counter+=1;
+
+                if(DEF[increase_counter][j] == 0) {
+                    for(int m = 0; m < columns; m++) {
+                        std::swap(DEF[increase_counter][m], DEF[index_in_memory[increase_counter]][m]);
+                    }
+                }
+               
+
+                      
+            }
+
+            increase_counter = 0;
+        double diag_element = DEF[increase_counter][increase_counter];
+        for(int l = 0; l < columns; l++) {
+            DEF[increase_counter][l] /= diag_element;
+        }
+
+        increase_counter +=1;
+                
+            
+            // } else {
+            //     if(DEF[increase_counter][increase_counter] == 0) {
+            //         std::swap(DEF[increase_counter][j], DEF[increase_counter + 1][j]);
+            //     }
+            //     DEF[increase_counter][j] = DEF[increase_counter][j] / *middle_elements[increase_counter];
+            // }
+
+            
+            // DEF[increase_counter + 1][j] = (DEF[increase_counter][increase_counter] * DEF[increase_counter + 1][increase_counter]) - DEF[increase_counter][increase_counter];
+            // increase_counter += 1;
+           
+            
+        }
     }
-
     
-        int counter = 0;
-        for (int i = 0; i < rows  - 1; i++) {
-            for (int j = 0; j < columns; j++) {
-                if(*middle_elements[counter] != 1) DEF[i][j] /= *middle_elements[counter];
-                  DEF[i][j] *= DEF[i + 1][j];
-                   if(DEF[i + 1][j] < 0) DEF[i + 1][j] = DEF[i][j] + DEF[i + 1][j];
-                   else if (DEF[i + 1][j] > 0) DEF[i + 1][j] = DEF[i][j] - DEF[i + 1][j];
+    //     int counter = 0;
+    //     for (int i = 0; i < rows  - 1; i++) {
+    //         for (int j = 0; j < columns; j++) {
+    //             if(*middle_elements[counter] != 1) {
+    //                 DEF[i][j] /= *middle_elements[counter];
+    //             }
 
-                    if(*middle_elements[counter] != 1) DEF[i][j] /= DEF[i][j];
+    //               DEF[i][j] *= DEF[i + 1][j];
+
+    //             if(DEF[i + 1][j] < 0) {
+    //                 DEF[i + 1][j] = DEF[i][j] + DEF[i + 1][j];
+    //             } else if (DEF[i + 1][j] > 0) {
+    //                  DEF[i + 1][j] = DEF[i][j] - DEF[i + 1][j];
+    //             }
+
+    //             if(*middle_elements[counter] != 1) DEF[i][j] /= DEF[i][j];
               
              
-            }
-             counter += 1;    
-        }
+    //         }
+    //          counter += 1;    
+    //     }
 
         /*
             Recieving
