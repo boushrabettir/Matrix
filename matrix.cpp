@@ -172,6 +172,25 @@ help from other functions since this is quite impossible IMO to do for me in one
 i think instead of considering all cases, i could generally just have two main cases
 */
 
+void Matrix::RowOperations(int counter, size_t rows, size_t column, std::vector<std::vector<double> >& DEF) {
+    double diag_element = DEF[counter][counter];
+
+    for(int l = 0; l < column; l++) {
+        DEF[counter][l] = DEF[counter][l] / diag_element;
+    }
+
+    counter += 1; // move counter outside the inner loop
+
+    for(int p = counter; p < rows; p++) {
+        double multiplier = DEF[p][counter - 1];
+
+        for(int l = 0; l < column; l++) {
+            DEF[p][l] -= DEF[counter - 1][l] * multiplier;
+        }
+    }
+}
+
+
 Matrix Matrix::REF(Matrix& a) {
     size_t rows = a.GetRows();
     size_t columns = a.GetColumns();
@@ -184,62 +203,50 @@ Matrix Matrix::REF(Matrix& a) {
     std::vector<int> index_in_memory;
 
     for(int i = 0; i < rows; i++) {
-        for(int j = 0; j < columns; j++) {
+    for(int j = 0; j < columns; j++) {
 
-            if(DEF[increase_counter][increase_counter] >= columns) {
-                break;
-            } else if(DEF[increase_counter][increase_counter] == 0) {
-                /* TODO: here we need to search through the rows to see if a 0 exists first*/
-                for(int k = 1; k < rows; k++) {
-                    if(DEF[k][j] == 1 || DEF[k][j] > 1 || DEF[k][j] < 1) {
-                        index_in_memory.push_back(k);
-                    }
+        if(DEF[increase_counter][increase_counter] >= columns) {
+            break;
+        } else if(DEF[increase_counter][increase_counter] == 0) {
+            /* TODO: here we need to search through the rows to see if a 0 exists first*/
+            for(int k = 1; k < rows; k++) {
+                if(DEF[k][j] == 1 || DEF[k][j] > 1 || DEF[k][j] < 1) {
+                    index_in_memory.push_back(k);
                 }
+            }
 
-                /* Change this */
-                for(int m = 0; m < columns; m++) {
-                     std::swap(DEF[increase_counter][m], DEF[index_in_memory[increase_counter]][m]);
-                }
-                
-                increase_counter+=1;
+            /* Change this */
 
-                if(DEF[increase_counter][j] == 0) {
+            for(int index : index_in_memory) {
+                if(index == NULL) {
+                    break;
+                } else {
                     for(int m = 0; m < columns; m++) {
                         std::swap(DEF[increase_counter][m], DEF[index_in_memory[increase_counter]][m]);
                     }
                 }
-               
-
-                a.REF(a); // recursion a best friend
+                
+                increase_counter +=1;
             }
 
-            increase_counter = 0;
-          
 
-            /* TODO: Make sure this divides the next row at DEF[1][l]*/
-            do {
-
-                double diag_element = DEF[increase_counter][increase_counter];
-                 
-                for(int l = 0; l < columns; l++) {
-                    DEF[increase_counter][l] /= diag_element;
-                }
-                increase_counter++;
-            
-
-            } while(DEF[increase_counter][j] == 1);
-          
-           
-           
-
-           
-            /* TODO: Make a better implementation for the 0'th case lol. */
-            /* TODO: Make a implementation for cases that aren't 0 */
-            /* TODO: Think about edge cases. */
-           
-        }
+            a.REF(a); // recursion a best friend
+        } 
     }
-    
+}
+
+increase_counter = 0;
+
+for(int j = 0; j < columns; j++) {
+    if(DEF[increase_counter][increase_counter] >= columns) {
+        break;
+    } else {
+        a.RowOperations(increase_counter, rows, columns, DEF);
+    }
+    increase_counter += 1;
+}
+
+       
     
 
     a.SetNewValues(DEF);
