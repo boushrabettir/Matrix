@@ -1,24 +1,28 @@
-# Matrix Library
+# Matrix Library V.1.
 
 ## Description
 
 
-The making of this simple library was to gain a better understanding of matrices as well as building a simple project along the way.
-
-P.S. I kind of get bored and make small things like this for fun and to learn, I guess. This is just to practice what I've learned in OOP so far and Linear Algebra as well.
+This library is in the midst of becoming a beginner level V.1. of a matrix library which includes some operations. 
+As a freshman, planning on expanding my knowledge in c++, to make this library more unique, and easier to work with. 
 
 ## To Do
 - [x] Scalar Multiplication
-- [x] 2x2 Matrix Multiplcation
-- [x] 3x3 Matrix Multiplication
+- [x] Matrix Multiplication - Almost
 - [x] Matrix Addition/Subtraction
 - [x] Matrix Size Flexibility
-- [ ] Any other things taught in class
 - [x] Transpose
-- [x] Inverse of 2x2
-- [ ] Identity Multiplication
+- [x] Inverse of 2x2 ONLY
+- [x] REF
+- [ ] Fix in the edge cases! ```(Finish End of this week)```
+- [ ] Create better algorithms for the code / optimize ```(Finish End of this week)```
+- [ ] Input the GoogleTests along w/ learning about workflows ```(Finish next two weeks with Professor - Google Tests around the 28th if not earlier)```
+- [ ] Learn how to use CMake's built in package to let other people use this ```(Finish this after the 28th if not earlier)```
+- [ ] Better documentation 
+- [ ] Handle errors ```(During this process)```
+- [ ] Scary part -> Feedback
 
-## Future To Do's
+## Future To Do's (Possibly V.2.?)
 - [ ] Identity Multiplication
 - [ ] RREF/REF
 - [ ] Any other things taught in class
