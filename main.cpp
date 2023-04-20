@@ -13,7 +13,7 @@ int main() {
 
 
     newMatrix.SetRows(3);
-    newMatrix.SetColumns(2);
+    newMatrix.SetColumns(3);
 
     newMatrix.GetValues();
     newMatrix.Print();
