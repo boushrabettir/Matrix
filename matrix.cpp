@@ -185,7 +185,7 @@ void Matrix::RowOperations(int counter, size_t rows, size_t column, std::vector<
         double multiplier = DEF[p][counter - 1];
 
         for(int l = 0; l < column; l++) {
-            DEF[p][l] -= DEF[counter - 1][l] * multiplier;
+            DEF[p][l] = (DEF[counter - 1][l] * multiplier) - DEF[p][l];
         }
     }
 }
@@ -210,9 +210,10 @@ Matrix Matrix::REF(Matrix& a) {
         } else if(DEF[increase_counter][increase_counter] == 0) {
             /* TODO: here we need to search through the rows to see if a 0 exists first*/
             for(int k = 1; k < rows; k++) {
-                if(DEF[k][j] == 1 || DEF[k][j] > 1 || DEF[k][j] < 1) {
+                if(DEF[k][j] > 0 || DEF[k][j] < 0) {
                     index_in_memory.push_back(k);
-                }
+                } 
+
             }
 
             /* Change this */
