@@ -3,6 +3,7 @@
 #include "matrix.h"
 #include <algorithm>
 #include <utility>
+#include <iterator>
 #include <array>
 #include <iomanip>
 
@@ -172,87 +173,76 @@ help from other functions since this is quite impossible IMO to do for me in one
 i think instead of considering all cases, i could generally just have two main cases
 */
 
-void Matrix::RowOperations(int counter, size_t rows, size_t column, std::vector<std::vector<double> >& DEF) {
+void Matrix::RowOperations(int counter, size_t rows, size_t columns, std::vector<std::vector<double>>& DEF) {
     double diag_element = DEF[counter][counter];
 
-    for(int l = 0; l < column; l++) {
+    for(int l = 0; l < columns; l++) {
         DEF[counter][l] = DEF[counter][l] / diag_element;
+       
     }
 
-    counter += 1; // move counter outside the inner loop
+    counter+=1;
+    int number = 0;
+    for(int p = counter; p < rows; p++) {
+        double multiplier = DEF[p][counter - 1];
+        for(int l = 0; l < columns; l++) {
+            DEF[p][number] -= (DEF[counter - 1][l] * multiplier);
+            number++;
+        }
+    }
 
     for(int p = counter; p < rows; p++) {
         double multiplier = DEF[p][counter - 1];
-
-        for(int l = 0; l < column; l++) {
-            DEF[p][l] = (DEF[counter - 1][l] * multiplier) - DEF[p][l];
+        for(int l = 0; l < columns; l++) {
+            DEF[p][l] -= (DEF[counter - 1][l] * multiplier);
+            number++;
         }
     }
+
+  // Fix this piece up in the code!!!
+
 }
+
+/* Change this */
+                // i did this wrong we want to loop the entire row nto the eelement itself
+                // pivot can remove elements below > 0 
+                // if 0 in pivot find a non zero swap it then do the removeing 
 
 
 Matrix Matrix::REF(Matrix& a) {
-    size_t rows = a.GetRows();
-    size_t columns = a.GetColumns();
-    std::shared_ptr<std::vector<std::vector<double> > > m = a.GetMatrix();
-    auto& DEF = *m;
+  size_t rows = a.GetRows();
+  size_t columns = a.GetColumns();
+  auto& DEF = *a.GetMatrix();
 
-    std::vector<std::shared_ptr<double> > middle_elements = this->MiddleElements(a);
+  int increase_counter = 0;
  
-    int increase_counter = 0;
-    std::vector<int> index_in_memory;
 
-    for(int i = 0; i < rows; i++) {
-    for(int j = 0; j < columns; j++) {
-
-        if(DEF[increase_counter][increase_counter] >= columns) {
-            break;
-        } else if(DEF[increase_counter][increase_counter] == 0) {
-            /* TODO: here we need to search through the rows to see if a 0 exists first*/
-            for(int k = 1; k < rows; k++) {
-                if(DEF[k][j] > 0 || DEF[k][j] < 0) {
-                    index_in_memory.push_back(k);
-                } 
-
-            }
-
-            /* Change this */
-
-            for(int index : index_in_memory) {
-                if(index == NULL) {
-                    break;
-                } else {
-                    for(int m = 0; m < columns; m++) {
-                        std::swap(DEF[increase_counter][m], DEF[index_in_memory[increase_counter]][m]);
-                    }
-                }
-                
-                increase_counter +=1;
-            }
-
-
-            a.REF(a); // recursion a best friend
-        } 
-    }
-}
-
-increase_counter = 0;
-
-for(int j = 0; j < columns; j++) {
-    if(DEF[increase_counter][increase_counter] >= columns) {
+  for (size_t i = 0; i < rows; i++) {
+    for (size_t j = 0; j < columns; j++) {
+      if (DEF[increase_counter][increase_counter] >= columns) {
         break;
-    } else {
-        a.RowOperations(increase_counter, rows, columns, DEF);
+      } else {
+        if (DEF[increase_counter][increase_counter] == 0) {
+          size_t row_to_swap = increase_counter + 1; //1
+          while (row_to_swap < rows && DEF[row_to_swap][increase_counter] == 0) {
+            row_to_swap++; 
+            // 2 need to check to see if it goes outta bounds
+          }
+          if (row_to_swap < rows) {
+            // Swap the rows
+            std::swap_ranges(DEF[increase_counter].begin(), DEF[increase_counter].end(), DEF[row_to_swap].begin());
+            // link -> https://en.cppreference.com/w/cpp/algorithm/swap_ranges
+          }
+        }
+      }
     }
-    increase_counter += 1;
-}
-
-       
-    
-
+    increase_counter = 0;
+    a.RowOperations(increase_counter, rows, columns, DEF);
     a.SetNewValues(DEF);
-    return a;
+  }
+  return a;
 }
+
 
 
 Matrix Matrix::Inverse(Matrix& a) {
