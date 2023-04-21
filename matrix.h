@@ -17,10 +17,11 @@ public:
 
     void SetRows(const size_t rows);
     void SetColumns(const size_t columns);
+    void SetSize(const size_t rows, const size_t columns); 
+    // implement ^
 
     void SetNewValues(const std::vector<std::vector<double> > new_values);
-    std:: vector<std::shared_ptr<double> > MiddleElements(Matrix& a) const;
-    void RowOperations(int counter, size_t rows, size_t column, std::vector<std::vector<double> >& DEF);
+    void RowOperations(size_t rows, size_t column, std::vector<std::vector<double> >& DEF);
 
     Matrix ScalarMultiplication(Matrix& matrix, double scalar) const;
     Matrix MultiplyMatrix(Matrix& a, Matrix& b, bool not_a_match);

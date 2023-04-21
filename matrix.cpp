@@ -10,7 +10,6 @@
 Matrix::Matrix() : rows_(0), colums_(0), matrix_(std::make_shared<std::vector<std::vector<double> > >(0, std::vector<double>(0))){}
 Matrix::Matrix(size_t rows, size_t columns) : rows_(rows), colums_(columns), matrix_(std::make_shared<std::vector<std::vector<double> > >(rows, std::vector<double>(columns))) {}
 
-
 double Matrix::GetRows() const { return rows_; }
 
 double Matrix::GetColumns() const { return colums_; }
@@ -32,9 +31,7 @@ void Matrix::SetColumns(const size_t columns) {
     }
 }
 
-void Matrix::SetNewValues(const std::vector<std::vector<double> > new_values) {
-    *matrix_ = new_values;
-};
+void Matrix::SetNewValues(const std::vector<std::vector<double> > new_values) {  *matrix_ = new_values; }
 
 void Matrix::Print() const {
 
@@ -63,18 +60,16 @@ std::vector<std::vector<double> > Matrix::GetValues() {
 Matrix Matrix::ScalarMultiplication(Matrix& matrix, double scalar) const {
     double rows = matrix.GetRows();
     double columns = matrix.GetColumns();
-    std::shared_ptr<std::vector<std::vector<double> > > m = matrix.GetMatrix();
-    auto DEREFERNCED = *m;
-     std::cout << "Pointers pointing to matrix_: " <<  m.use_count() << "\n";
+    std::vector<std::vector<double> >& DEF = *matrix.GetMatrix();
 
     for(int i = 0; i < rows; i++) {
         for(int j = 0; j < columns; j++) {
-            DEREFERNCED[i][j] *= scalar;
+            DEF[i][j] *= scalar;
         }
     }
 
 
-    matrix.SetNewValues(DEREFERNCED);
+    matrix.SetNewValues(DEF);
     return matrix;
 }
 
@@ -87,35 +82,29 @@ Matrix Matrix::Arithmetic(Matrix& a, Matrix& b, bool negative) {
 
     if (row_a != row_b || column_a != column_b) throw std::invalid_argument("Matrices have different dimensions");
     
-
-    std::shared_ptr<std::vector<std::vector<double> > > matrix_a = a.GetMatrix();
-    std::shared_ptr<std::vector<std::vector<double> > > matrix_b = b.GetMatrix();
-    auto DEREFERNCED_A = *matrix_a;
-    auto DEREFERNCED_B = *matrix_b;
+    std::vector<std::vector<double> >& DEREFERNCED_A = *a.GetMatrix();
+    std::vector<std::vector<double> >& DEREFERNCED_B = *b.GetMatrix();
 
     /* weird bug */
 
        for (int i = 0; i < row_a; i++) {
         for (int j = 0; j < column_a; j++) {
-            if(negative) DEREFERNCED_A[i][j] -= DEREFERNCED_B[i][j];
+            if(negative) DEREFERNCED_A[i][j] -= DEREFERNCED_A[i][j];
             else DEREFERNCED_A[i][j] += DEREFERNCED_B[i][j];
         }
     }
-    
     
     a.SetNewValues(DEREFERNCED_A);    
     return a;
 }
 
 Matrix Matrix::MultiplyMatrix(Matrix& a, Matrix& b, bool not_a_match) {
-    std::shared_ptr<std::vector<std::vector<double> > > first = a.GetMatrix();
-    std::shared_ptr<std::vector<std::vector<double> > > second = b.GetMatrix();
-    auto DEREFERNCED_FIRST = *first;
-    auto DEREFERNCED_SECOND = *second;
+    std::vector<std::vector<double> >& DEREFERNCED_FIRST = *a.GetMatrix();
+    std::vector<std::vector<double> >& DEREFERNCED_SECOND = *b.GetMatrix();
     not_a_match = true;
 
     // 2 x 3 - A ROW/COLUMN
-   // 4 x 2 - B ROW/COLUMN
+    // 4 x 2 - B ROW/COLUMN
 
     double first_matrix_column = a.GetColumns();
     double first_matrix_row = a.GetRows();
@@ -135,143 +124,38 @@ Matrix Matrix::MultiplyMatrix(Matrix& a, Matrix& b, bool not_a_match) {
         not_a_match = true;
     }
 
-    
     a.SetNewValues(DEREFERNCED_FIRST); 
     return a;
 }
 
-std::vector<std::shared_ptr<double> > Matrix::MiddleElements(Matrix& a) const {
-    /*
-        Here we get the matrix, we loop through the values and push in the middle elemnts
-        11
-        22
-        33
-        44 etc. 
-        until theres no more
-    */
 
-    size_t rows = a.GetRows();
-    size_t columns = a.GetColumns();
-    std::shared_ptr<std::vector<std::vector<double> > > m = a.GetMatrix();
-    auto DEF = *m;
-
-    std::vector<std::shared_ptr<double> > middle_elements;
-
-     for (int i = 0; i < rows; i++) {
-        for (int j = 0; j < columns; j++) {
-            if(DEF[i] == DEF[j]) {
-                middle_elements.push_back(std::make_shared<double>(DEF[i][j]));
-            }
-        }
-     }
-
-    return middle_elements;
-}
-
-/* Very ugly implementation. I am just getting an idea of how to go about this. Will use 
-help from other functions since this is quite impossible IMO to do for me in one member function. 
-i think instead of considering all cases, i could generally just have two main cases
-*/
-
-void Matrix::RowOperations(int counter, size_t rows, size_t columns, std::vector<std::vector<double> >& DEF) {
+void Matrix::RowOperations(size_t rows, size_t columns, std::vector<std::vector<double> >& DEF) {
 
     int lead = 0;
-    
     // if cpp reference guide, stackoverflow didnt exist i would not have finish this holy cow
     while(lead < rows) {
         float leading, multiplier;
 
         for(int row = 0; row < rows; row++) {
-            leading = DEF[lead][lead]; // 0 0 element
+           leading = DEF[lead][lead]; // 0 0 element
             multiplier = DEF[row][lead] / DEF[lead][lead]; // row increase , lead = 0 , multiplier
-
             for(int column = 0; column < columns; column++) {
                 if(row == lead) // row = 0 -> lead = 0 
                     DEF[row][column] /= leading;
                  else 
                     DEF[row][column] -= DEF[lead][column] * multiplier;
-                    // 0  0 --> 1 0 * m
-                
-            }
-
-           
-            
+                    // 0  0 --> 1 0 * m  
+            }   
         }
-         lead++;
-    }
-/*
-
- const int nrows = 3; // number of rows
-    const int ncols = 4; // number of columns
-
-    int lead = 0; 
-
-    while (lead < nrows) {
-        float d, m;
-
-        for (int r = 0; r < nrows; r++) { // for each row ...
-             calculate divisor and multiplier
-            d = A[lead][lead];
-            m = A[r][lead] / A[lead][lead];
-
-            for (int c = 0; c < ncols; c++) { // for each column ...
-                if (r == lead)
-                    A[r][c] /= d;               // make pivot = 1
-                else
-                    A[r][c] -= A[lead][c] * m;  // make other = 0
-            }
-        }
-
         lead++;
-        printmatrix(A);
     }
-*/
-      
-    // double diag_element = DEF[counter][counter];
-
-
-
-    // for(int l = 0; l < columns; l++) {
-    //     DEF[counter][l] = DEF[counter][l] / diag_element;
-    // }
-
-    // std::vector<int> num;
-    // for(int p = 1; p < rows; p++) {
-    //       auto multiplier = std::find_if(DEF[p].begin(), DEF[p].end(), [](auto element) { 
-    //          num.push_back(p);
-    //          return element != 0; 
-    //         });
-
-    //       std::cout << *multiplier << std::endl;
-
-       
-         
-          
-     
-// loop thru the rows at column 0
-// find a non zero element multiply it by the pivot
-// subtract the two rows 
-
-  
-
-
-    // for(int p = counter; p < rows; p++) {
-    //     double multiplier = DEF[p][counter - 1];
-    //     for(int l = 0; l < columns; l++) {
-    //         DEF[p][l] -= (DEF[counter - 1][l] * multiplier);
-    //         number++;
-    //     }
-    // }
-
-  // Fix this piece up in the code!!!
-
 }
 
 /* Change this */
                 // i did this wrong we want to loop the entire row nto the eelement itself
                 // pivot can remove elements below > 0 
                 // if 0 in pivot find a non zero swap it then do the removeing 
-
+// why did i get RREF bruh!!
 
 Matrix Matrix::REF(Matrix& a) {
   size_t rows = a.GetRows();
@@ -290,7 +174,7 @@ Matrix Matrix::REF(Matrix& a) {
           size_t row_to_swap = increase_counter + 1; //1
           while (row_to_swap < rows && DEF[row_to_swap][increase_counter] == 0) {
             row_to_swap++; 
-            // 2 need to check to see if it goes outta bounds
+            // 2 need to check to see if it goes outta bounds and if its STILL 0 we continue 
           }
           if (row_to_swap < rows) {
             // Swap the rows
@@ -300,18 +184,15 @@ Matrix Matrix::REF(Matrix& a) {
         }
       }
     }
-    a.RowOperations(increase_counter, rows, columns, DEF);
+    a.RowOperations(rows, columns, DEF);
     a.SetNewValues(DEF);
   }
   return a;
 }
 
-
-
 Matrix Matrix::Inverse(Matrix& a) {
-    std::shared_ptr<std::vector<std::vector<double> > > m = a.GetMatrix();
-    auto DEF = *m;
-
+    auto& DEF = *a.GetMatrix();
+    
     double scalar = DEF[0][0] * DEF[1][1] - DEF[1][0] * DEF[0][1];
 
     if(scalar == 0)  throw std::runtime_error("2x2 Matrix is not invertible!");
@@ -324,17 +205,14 @@ Matrix Matrix::Inverse(Matrix& a) {
     
     a.SetNewValues(DEF);
 
-
-
     return a;
 }
 
 Matrix Matrix::Transpose(Matrix& a) {
     size_t rows = a.GetRows();
     size_t columns = a.GetColumns();
-    std::shared_ptr<std::vector<std::vector<double> > > m = a.GetMatrix();
-    std::cout << "Pointers pointing to matrix_: " <<  m.use_count() << "\n";
-    auto DEREFERNCED = *m;
+    auto& DEREFERNCED = *a.GetMatrix();
+ 
     std::vector<std::vector<double> > transposed(columns, std::vector<double>(rows));
 
     for (size_t i = 0; i < rows; i++) {
