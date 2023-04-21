@@ -173,31 +173,95 @@ help from other functions since this is quite impossible IMO to do for me in one
 i think instead of considering all cases, i could generally just have two main cases
 */
 
-void Matrix::RowOperations(int counter, size_t rows, size_t columns, std::vector<std::vector<double>>& DEF) {
-    double diag_element = DEF[counter][counter];
+void Matrix::RowOperations(int counter, size_t rows, size_t columns, std::vector<std::vector<double> >& DEF) {
 
-    for(int l = 0; l < columns; l++) {
-        DEF[counter][l] = DEF[counter][l] / diag_element;
+    int lead = 0;
+    
+    // if cpp reference guide, stackoverflow didnt exist i would not have finish this holy cow
+    while(lead < rows) {
+        float leading, multiplier;
+
+        for(int row = 0; row < rows; row++) {
+            leading = DEF[lead][lead]; // 0 0 element
+            multiplier = DEF[row][lead] / DEF[lead][lead]; // row increase , lead = 0 , multiplier
+
+            for(int column = 0; column < columns; column++) {
+                if(row == lead) // row = 0 -> lead = 0 
+                    DEF[row][column] /= leading;
+                 else 
+                    DEF[row][column] -= DEF[lead][column] * multiplier;
+                    // 0  0 --> 1 0 * m
+                
+            }
+
+           
+            
+        }
+         lead++;
+    }
+/*
+
+ const int nrows = 3; // number of rows
+    const int ncols = 4; // number of columns
+
+    int lead = 0; 
+
+    while (lead < nrows) {
+        float d, m;
+
+        for (int r = 0; r < nrows; r++) { // for each row ...
+             calculate divisor and multiplier
+            d = A[lead][lead];
+            m = A[r][lead] / A[lead][lead];
+
+            for (int c = 0; c < ncols; c++) { // for each column ...
+                if (r == lead)
+                    A[r][c] /= d;               // make pivot = 1
+                else
+                    A[r][c] -= A[lead][c] * m;  // make other = 0
+            }
+        }
+
+        lead++;
+        printmatrix(A);
+    }
+*/
+      
+    // double diag_element = DEF[counter][counter];
+
+
+
+    // for(int l = 0; l < columns; l++) {
+    //     DEF[counter][l] = DEF[counter][l] / diag_element;
+    // }
+
+    // std::vector<int> num;
+    // for(int p = 1; p < rows; p++) {
+    //       auto multiplier = std::find_if(DEF[p].begin(), DEF[p].end(), [](auto element) { 
+    //          num.push_back(p);
+    //          return element != 0; 
+    //         });
+
+    //       std::cout << *multiplier << std::endl;
+
        
-    }
+         
+          
+     
+// loop thru the rows at column 0
+// find a non zero element multiply it by the pivot
+// subtract the two rows 
 
-    counter+=1;
-    int number = 0;
-    for(int p = counter; p < rows; p++) {
-        double multiplier = DEF[p][counter - 1];
-        for(int l = 0; l < columns; l++) {
-            DEF[p][number] -= (DEF[counter - 1][l] * multiplier);
-            number++;
-        }
-    }
+  
 
-    for(int p = counter; p < rows; p++) {
-        double multiplier = DEF[p][counter - 1];
-        for(int l = 0; l < columns; l++) {
-            DEF[p][l] -= (DEF[counter - 1][l] * multiplier);
-            number++;
-        }
-    }
+
+    // for(int p = counter; p < rows; p++) {
+    //     double multiplier = DEF[p][counter - 1];
+    //     for(int l = 0; l < columns; l++) {
+    //         DEF[p][l] -= (DEF[counter - 1][l] * multiplier);
+    //         number++;
+    //     }
+    // }
 
   // Fix this piece up in the code!!!
 
@@ -236,7 +300,6 @@ Matrix Matrix::REF(Matrix& a) {
         }
       }
     }
-    increase_counter = 0;
     a.RowOperations(increase_counter, rows, columns, DEF);
     a.SetNewValues(DEF);
   }
