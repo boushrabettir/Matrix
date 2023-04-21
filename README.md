@@ -16,8 +16,7 @@ As a freshman, planning on expanding my knowledge in c++, to make this library m
 - [x] REF
 - [ ] Fix in the edge cases! ```(Finish End of this week)```
 - [ ] Create better algorithms for the code / optimize ```(Finish End of this week)```
-- [ ] Input the GoogleTests along w/ learning about workflows ```(Finish next two weeks with Professor - Google Tests around the 28th if not earlier)```
-- [ ] Learn how to use CMake's built in package to let other people use this ```(Finish this after the 28th if not earlier)```
+- [ ] Input the GoogleTests along w/ learning about workflows (YAML) ```(Finish next two weeks with Professor - Google Tests around the 28th if not earlier)```
 - [ ] Better documentation 
 - [ ] Handle errors ```(During this process)```
 - [ ] Scary part -> Feedback
