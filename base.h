@@ -1,7 +1,12 @@
 #ifndef BASE_H
 #define BASE_H
 
-class Base {
+#include <iostream>
+#include <memory>
+#include <vector>
+
+
+class BaseMatrix {
     /*
     TODO:
         1. Implement Parent class 
@@ -30,6 +35,50 @@ class Base {
             void SetSize(const size_t rows, const size_t columns);
             void SetNewValues(const std::vector<std::vector<double> > new_values);
     */
+
+  public:
+    BaseMatrix() {}
+    BaseMatrix(size_t rows, size_t columns) : rows_(rows), columns_(columns) {}
+    double GetRows() const { return rows_; }
+    double GetColumns() const { return columns_; }
+
+    std::vector<std::vector<double> > GetValues() {
+      std::cout << "Please input your values accordingly!\n";
+       for (int i = 0; i < rows_; ++i) {
+         for (int j = 0; j < columns_; ++j) {
+           std::cout << "Enter element at (Row: " << i << ", Column: " << j << "): ";
+            std::cin >> (*matrix_)[i][j];
+        }
+    }
+     return *matrix_;
+    };
+
+    void SetRows(const size_t rows) {
+      rows_ = rows;
+      matrix_->resize(rows_);
+      for (std::vector<double>& row : *matrix_) {
+        row.resize(rows_);
+      }
+    }
+
+    void SetColumns(const size_t columns) {
+      columns_ = columns;
+      for (std::vector<double>& columns : *matrix_) {
+        columns.resize(columns_);
+      }
+    }
+
+    void SetSize(const size_t rows, const size_t columns) {
+      SetRows(rows);
+      SetColumns(columns);
+    }
+    // implement ^
+
+    void SetNewValues(const std::vector<std::vector<double> > new_values) { *matrix_ = new_values; }
+
+  private:
+    size_t rows_, columns_;
+    std::shared_ptr<std::vector<std::vector<double> > > matrix_;
 };
 
 #endif 

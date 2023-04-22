@@ -12,7 +12,7 @@ int main() {
 
 
 
-   newMatrix.Size(3, 5);
+   newMatrix.SetSize(3, 5);
 
     newMatrix.GetValues();
     newMatrix.Print();

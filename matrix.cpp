@@ -10,29 +10,8 @@
 Matrix::Matrix() : rows_(0), colums_(0), matrix_(std::make_shared<std::vector<std::vector<double> > >(0, std::vector<double>(0))){}
 Matrix::Matrix(size_t rows, size_t columns) : rows_(rows), colums_(columns), matrix_(std::make_shared<std::vector<std::vector<double> > >(rows, std::vector<double>(columns))) {}
 
-double Matrix::GetRows() const { return rows_; }
-
-double Matrix::GetColumns() const { return colums_; }
 
 std::shared_ptr<std::vector<std::vector<double> > > Matrix::GetMatrix() const { return matrix_; }
-
-void Matrix::SetRows(const size_t rows) {
-    rows_ = rows;
-    matrix_->resize(rows_);
-    for (std::vector<double>& row : *matrix_) {
-        row.resize(rows_);
-    }
-}
-
-void Matrix::SetColumns(const size_t columns) {
-    colums_ = columns;
-    for (std::vector<double>& columns : *matrix_) {
-        columns.resize(colums_);
-    }
-}
-
-void Matrix::SetNewValues(const std::vector<std::vector<double> > new_values) {  *matrix_ = new_values; }
-
 void Matrix::Print() const {
 
     for (const std::vector<double>& row : *matrix_) {
@@ -45,17 +24,6 @@ void Matrix::Print() const {
     }
 }
 
-std::vector<std::vector<double> > Matrix::GetValues() {
-    std::cout << "Please input your values accordingly!\n";
-    for (int i = 0; i < rows_; ++i) {
-        for (int j = 0; j < colums_; ++j) {
-            std::cout << "Enter element at (Row: " << i << ", Column: " << j << "): ";
-            std::cin >> (*matrix_)[i][j];
-        }
-    }
-
-    return *matrix_;
-}
 
 Matrix Matrix::ScalarMultiplication(Matrix& matrix, double scalar) const {
     double rows = matrix.GetRows();
