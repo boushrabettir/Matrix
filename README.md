@@ -14,10 +14,13 @@ As a freshman, planning on expanding my knowledge in c++, to make this library m
 - [x] Transpose
 - [x] Inverse of 2x2 ONLY
 - [x] REF
+- [ ] Determinant
+- [ ] LU Factorization
 - [ ] Fix in the edge cases! (Pt.1) ```(Finish End of this week)```
 - [ ] Create better algorithms for the code / optimize ```(Finish End of this week)```
-- [ ] Input the GoogleTests along w/ learning about workflows (YAML) ```(Finish next two weeks with Professor - Google Tests around the 28th if not earlier)```
-- [ ] Better documentation 
+- [ ] Input the GoogleTests ```(Finish up this week)
+- [ ] YAML Github Actions Workflow  ```(Finish up next week)```
+- [x] Better documentation 
 - [ ] Handle errors ```(During this process)```
 - [ ] Test out Valgrind ```(Now)```
 - [ ] Scary part -> Feedback
