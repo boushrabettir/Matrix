@@ -14,15 +14,15 @@ As a freshman, planning on expanding my knowledge in c++, to make this library m
 - [x] Transpose
 - [x] Inverse of 2x2 ONLY
 - [x] REF
-- [ ] Fix in the edge cases! ```(Finish End of this week)```
+- [ ] Fix in the edge cases! (Pt.1) ```(Finish End of this week)```
 - [ ] Create better algorithms for the code / optimize ```(Finish End of this week)```
 - [ ] Input the GoogleTests along w/ learning about workflows (YAML) ```(Finish next two weeks with Professor - Google Tests around the 28th if not earlier)```
 - [ ] Better documentation 
 - [ ] Handle errors ```(During this process)```
+- [ ] Test out Valgrind ```(End)```
 - [ ] Scary part -> Feedback
 
 ## Future To Do's (Possibly V.2.?)
 - [ ] Identity Multiplication
-- [ ] RREF/REF
 - [ ] Any other things taught in class
 
