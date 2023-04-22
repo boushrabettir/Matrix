@@ -19,7 +19,7 @@ As a freshman, planning on expanding my knowledge in c++, to make this library m
 - [ ] Input the GoogleTests along w/ learning about workflows (YAML) ```(Finish next two weeks with Professor - Google Tests around the 28th if not earlier)```
 - [ ] Better documentation 
 - [ ] Handle errors ```(During this process)```
-- [ ] Test out Valgrind ```(End)```
+- [ ] Test out Valgrind ```(Now)```
 - [ ] Scary part -> Feedback
 
 ## Future To Do's (Possibly V.2.?)
