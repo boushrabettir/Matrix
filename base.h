@@ -39,6 +39,7 @@ class BaseMatrix {
   public:
     BaseMatrix() {}
     BaseMatrix(size_t rows, size_t columns) : rows_(rows), columns_(columns) {}
+    BaseMatrix(std::vector<std::vector<double> > set_values) : matrix_(std::make_shared<std::vector<std::vector<double> > > (set_values)) {}
     double GetRows() const { return rows_; }
     double GetColumns() const { return columns_; }
 

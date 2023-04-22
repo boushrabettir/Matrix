@@ -9,6 +9,8 @@
 
 Matrix::Matrix() : rows_(0), colums_(0), matrix_(std::make_shared<std::vector<std::vector<double> > >(0, std::vector<double>(0))){}
 Matrix::Matrix(size_t rows, size_t columns) : rows_(rows), colums_(columns), matrix_(std::make_shared<std::vector<std::vector<double> > >(rows, std::vector<double>(columns))) {}
+Matrix::Matrix(std::vector<std::vector<double> > set_values) : BaseMatrix(set_values) {}
+// ooo inheritience in the HOUSE
 
 
 std::shared_ptr<std::vector<std::vector<double> > > Matrix::GetMatrix() const { return matrix_; }
@@ -160,7 +162,7 @@ Matrix Matrix::REF(Matrix& a) {
 
 Matrix Matrix::Inverse(Matrix& a) {
     auto& DEF = *a.GetMatrix();
-    
+
     double scalar = DEF[0][0] * DEF[1][1] - DEF[1][0] * DEF[0][1];
 
     if(scalar == 0)  throw std::runtime_error("2x2 Matrix is not invertible!");

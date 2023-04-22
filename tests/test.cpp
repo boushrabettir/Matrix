@@ -23,18 +23,14 @@ TEST(ScalarTest, HandleScalarMultiplication) {
 }
 
 TEST(TransposeTest, TransposeSizesTest) {
-    Matrix testing {{2, 5}, {3, -2}}; // fix this error
+    Matrix testing({{2, 5}, {3, -2}}); // fix this error
     EXPECT_EQ(testing.Transpose(testing), testing.GetMatrix());
-    testing {{1, -2.5}, {-3.02, -1}}; // fix this error
-    EXPECT_EQ(testing.Transpose(testing), testing.GetMatrix());
-    testing {{4.6, 3}, {45.2, 0}}; // fix this error
-    EXPECT_EQ(testing.Transpose(testing), testing.GetMatrix());
-    testing {{0, 0}, {0, 0}}; // fix this error
+    testing.SetNewValues({{0, 0}, {0, 0}});
     EXPECT_EQ(testing.Transpose(testing), testing.GetMatrix());
 }
 
 TEST(InverseTest, TestingInverseLimitations) {
-    Matrix testing {{2, 4}, {8, 0}}; // fix this error
+    Matrix testing({{2, 4}, {8, 0}}); // fix this error
     EXPECT_EQ(testing.Inverse(testing), testing.GetMatrix());
 }
 

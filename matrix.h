@@ -10,7 +10,7 @@ class Matrix : public BaseMatrix {
 public:
     Matrix();
     Matrix(size_t rows, size_t columns);
-    Matrix(std::vector<std::vector<double> >& values);
+    Matrix(std::vector<std::vector<double> > set_values);
     // double GetRows() const;
     // double GetColumns() const;
     std::shared_ptr<std::vector<std::vector<double> > > GetMatrix() const;
@@ -37,7 +37,6 @@ public:
 
 private:
     size_t rows_, colums_;
-    // std::vector<std::vector<double> > matrix_;
     std::shared_ptr<std::vector<std::vector<double> > > matrix_;
     
 };
