@@ -4,29 +4,29 @@
 #include <array>
 #include <vector>
 #include <memory>
-#include "base.h"
 
-class Matrix : public BaseMatrix {
+
+class Matrix {
 public:
     Matrix();
-    Matrix(size_t rows, size_t columns);
-    Matrix(std::vector<std::vector<double> > set_values);
-    // double GetRows() const;
-    // double GetColumns() const;
-    std::shared_ptr<std::vector<std::vector<double> > > GetMatrix() const;
+    Matrix(long long rows, long long columns);
+    Matrix(std::vector<std::vector<long long> > set_values);
+    long long GetRows() const;
+    long long GetColumns() const;
+    std::shared_ptr<std::vector<std::vector<long long> > > GetMatrix() const;
 
-    // std::vector<std::vector<double> > GetValues();
+    std::vector<std::vector<long long> > GetValues();
 
-    // void SetRows(const size_t rows);
-    // void SetColumns(const size_t columns);
-    // void SetSize(const size_t rows, const size_t columns); 
-    // // implement ^
+    void SetRows(const long long rows);
+    void SetColumns(const long long columns);
+    void SetSize(const long long rows, const long long columns); 
+    // implement ^
 
-    // void SetNewValues(const std::vector<std::vector<double> > new_values);
-    void RowOperations(size_t rows, size_t column, std::vector<std::vector<double> >& DEF);
+    void SetNewValues(const std::vector<std::vector<long long> > new_values);
+    void RowOperations(long long rows, long long column, std::vector<std::vector<long long> >& DEF);
 
-    Matrix ScalarMultiplication(Matrix& matrix, double scalar) const;
-    Matrix MultiplyMatrix(Matrix& a, Matrix& b, bool not_a_match);
+    Matrix ScalarMultiplication(Matrix& matrix, long long scalar) const;
+    Matrix MultiplyMatrix(Matrix& a, Matrix& b);
     Matrix Arithmetic(Matrix& a, Matrix& b, bool negative);
     Matrix Transpose(Matrix& a);
     Matrix REF(Matrix& a);
@@ -36,8 +36,8 @@ public:
     void Print() const;
 
 private:
-    size_t rows_, colums_;
-    std::shared_ptr<std::vector<std::vector<double> > > matrix_;
+    long long rows_, colums_;
+    std::shared_ptr<std::vector<std::vector<long long> > > matrix_;
     
 };
 
