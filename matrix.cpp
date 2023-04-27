@@ -9,22 +9,26 @@
 
 Matrix::Matrix()
     : rows_(0), colums_(0),
-      matrix_(std::make_shared<std::vector<std::vector<long long>>>(
+      matrix_(std::make_shared<std::vector<std::vector<long long> > >(
           0, std::vector<long long>(0))) {}
+
 Matrix::Matrix(long long rows, long long columns)
     : rows_(rows), colums_(columns),
-      matrix_(std::make_shared<std::vector<std::vector<long long>>>(
+      matrix_(std::make_shared<std::vector<std::vector<long long> > >(
           rows, std::vector<long long>(columns))) {}
+
+Matrix::Matrix(std::vector<std::vector<long long> > set_values) 
+     : matrix_(std::make_shared<std::vector<std::vector<long long> > >(set_values)) {}
 
 // ooo inheritience in the HOUSE
 long long Matrix::GetRows() const { return rows_; }
 long long Matrix::GetColumns() const { return colums_; }
 
-std::shared_ptr<std::vector<std::vector<long long>>> Matrix::GetMatrix() const {
+std::shared_ptr<std::vector<std::vector<long long> > > Matrix::GetMatrix() const {
   return matrix_;
 }
 
-std::vector<std::vector<long long>> Matrix::GetValues() {
+std::vector<std::vector<long long> > Matrix::GetValues() {
   std::cout << "Please input your values accordingly!\n";
   for (int i = 0; i < rows_; ++i) {
     for (int j = 0; j < colums_; ++j) {
@@ -64,7 +68,7 @@ void Matrix::SetSize(const long long rows, const long long columns) {
 }
 
 void Matrix::SetNewValues(
-    const std::vector<std::vector<long long>> new_values) {
+    const std::vector<std::vector<long long> > new_values) {
   *matrix_ = new_values;
 }
 
@@ -85,7 +89,7 @@ void Matrix::Print() const {
 Matrix Matrix::ScalarMultiplication(Matrix &matrix, long long scalar) const {
   long long rows = matrix.GetRows();
   long long columns = matrix.GetColumns();
-  std::vector<std::vector<long long>> &DEF = *matrix.GetMatrix();
+  std::vector<std::vector<long long> > &DEF = *matrix.GetMatrix();
 
   if (!std::isdigit(scalar)) {
     throw std::runtime_error("Scalar is a not a digit. Please try again.");
@@ -111,8 +115,8 @@ Matrix Matrix::Arithmetic(Matrix &a, Matrix &b, bool negative) {
   if (row_a != row_b || column_a != column_b)
     throw std::invalid_argument("Matrices have different dimensions");
 
-  std::vector<std::vector<long long>> &DEREFERNCED_A = *a.GetMatrix();
-  std::vector<std::vector<long long>> &DEREFERNCED_B = *b.GetMatrix();
+  std::vector<std::vector<long long> > &DEREFERNCED_A = *a.GetMatrix();
+  std::vector<std::vector<long long> > &DEREFERNCED_B = *b.GetMatrix();
 
   /* weird bug */
 
@@ -134,9 +138,9 @@ Matrix Matrix::MultiplyMatrix(Matrix &a, Matrix &b) {
   Matrix results;
   results.SetSize(a.GetRows(), b.GetColumns());
 
-  std::vector<std::vector<long long>> &DEREFERNCED_FIRST = *a.GetMatrix();
-  std::vector<std::vector<long long>> &DEREFERNCED_SECOND = *b.GetMatrix();
-  std::vector<std::vector<long long>> &DEREFERNCED_RESULT =
+  std::vector<std::vector<long long> > &DEREFERNCED_FIRST = *a.GetMatrix();
+  std::vector<std::vector<long long> > &DEREFERNCED_SECOND = *b.GetMatrix();
+  std::vector<std::vector<long long> > &DEREFERNCED_RESULT =
       *results.GetMatrix();
 
   long long first_matrix_column = a.GetColumns();
@@ -174,28 +178,31 @@ Matrix Matrix::MultiplyMatrix(Matrix &a, Matrix &b) {
 }
 
 void Matrix::RowOperations(long long rows, long long columns,
-                           std::vector<std::vector<long long>> &DEF) {
+                           std::vector<std::vector<long long> > &DEF, bool is_rref) {
 
   int lead = 0;
+  is_rref = false;
   // if cpp reference guide, stackoverflow didnt exist i would not have finish
   // this holy cow
-  while (lead < rows) {
-    float leading, multiplier;
+ while (lead < rows) {
+  float leading, multiplier;
 
-    for (int row = 0; row < rows; row++) {
-      leading = DEF[lead][lead]; // 0 0 element
-      multiplier = DEF[row][lead] /
-                   DEF[lead][lead]; // row increase , lead = 0 , multiplier
-      for (int column = 0; column < columns; column++) {
-        if (row == lead) // row = 0 -> lead = 0
-          DEF[row][column] /= leading;
-        else
-          DEF[row][column] -= DEF[lead][column] * multiplier;
-        // 0  0 --> 1 0 * m
+  for (int row = 0; row < rows; row++) {
+    leading = DEF[lead][lead];
+    multiplier = DEF[row][lead] / DEF[lead][lead];
+    for (int column = 0; column < columns; column++) {
+      if (row == lead && is_rref == false) {
+        continue; // skip the division step for the leading row
+      } else if (row == lead && is_rref == true) {
+        DEF[row][column] -= DEF[lead][column] * multiplier;
+      } else {
+        DEF[row][column] -= DEF[lead][column] * multiplier;
       }
     }
-    lead++;
   }
+  lead++;
+}
+
 }
 
 /* Change this */
@@ -204,7 +211,7 @@ void Matrix::RowOperations(long long rows, long long columns,
 // if 0 in pivot find a non zero swap it then do the removeing
 // why did i get RREF bruh!!
 
-Matrix Matrix::REF(Matrix &a) {
+Matrix Matrix::REF(Matrix &a, bool is_rref) {
   long long rows = a.GetRows();
   long long columns = a.GetColumns();
   auto &DEF = *a.GetMatrix();
@@ -234,7 +241,7 @@ Matrix Matrix::REF(Matrix &a) {
         }
       }
     }
-    a.RowOperations(rows, columns, DEF);
+    a.RowOperations(rows, columns, DEF, is_rref);
     a.SetNewValues(DEF);
   }
   return a;
@@ -287,7 +294,7 @@ Matrix Matrix::Transpose(Matrix &a) {
   long long columns = a.GetColumns();
   auto &DEREFERNCED = *a.GetMatrix();
 
-  std::vector<std::vector<long long>> transposed(columns,
+  std::vector<std::vector<long long> > transposed(columns,
                                                  std::vector<long long>(rows));
 
   for (long long i = 0; i < rows; i++) {

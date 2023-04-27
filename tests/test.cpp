@@ -3,8 +3,7 @@
 /* Learn how to make a basic makefile or use GoogleTest */
 
 TEST(SizeTest, HandlesAllSizes) {
-    Matrix testing;
-    testing.SetRows(4);
+    Matrix testing(4, 3);
     EXPECT_EQ(testing.GetRows(), 4);
     testing.SetColumns(3);
     EXPECT_EQ(testing.GetColumns(), 3);

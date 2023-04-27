@@ -12,12 +12,11 @@ int main() {
 
 
 
-   newMatrix.SetSize(3, 5);
-
+   newMatrix.SetSize(2, 2);
     newMatrix.GetValues();
     newMatrix.Print();
     std::cout << "\n\n";
-    newMatrix.REF(newMatrix);
+    newMatrix.REF(newMatrix, true);
     newMatrix.Print();
     // newMatrix.REF(newMatrix);
     // std::cout << "Here is your REF matrix" << std::endl;
