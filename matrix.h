@@ -25,13 +25,11 @@ public:
     Matrix Transpose(Matrix& a);
     Matrix REF(Matrix& a, bool is_rref);
     Matrix Inverse(Matrix& a);
+    Matrix Exponentiation(Matrix& a, double exponent);
+    long long Trace(Matrix& a);
     int Rank(Matrix& a);
 
     void Print() const;
-    
-// protected:
-    // wont work in unit tests. figure this out.
-
   
 private:
     long long rows_, colums_;
