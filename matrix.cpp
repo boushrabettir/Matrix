@@ -331,12 +331,11 @@ Matrix Matrix::Exponentiation(Matrix& a, double exponent) {
 
   
   int counter = 0;
-  while(exponent > 0) {
-    if(std::fmod(exponent, 2) == 1) {
+  while(exponent > counter) {
     a.MultiplyMatrix(a, a);
-    }
-    exponent = exponent / 2;
-  }
+    exponent-=1;
    
+  }
+
   return a;
 }
