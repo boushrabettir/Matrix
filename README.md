@@ -40,10 +40,7 @@ myMatrix.GetValues();
 ```cpp
 myMatrix.Print();
 ```
-
-<br />
-Now, you are free to do ANY matrix function for V.1.! Here is the current list of functions to use for your matrix. 
-<br />
+### Now, you are free to do ANY matrix function for V.1.! Here is the current list of functions to use for your matrix. 
 
 1. Scalar Multiplication
 ```cpp
@@ -86,7 +83,6 @@ myMatrix.Rank(myMatrix);
 ```
 
 7. Trace
-
 Please note that this function returns the trace, so if you would like to verify the number or use this number in another operation, make sure to hold it into a variable.
 ```cpp
 auto trace = myMatrix.Trace(myMatrix);
@@ -97,7 +93,12 @@ std::cout << trace << std::endl;
 ```cpp
 myMatrix.Exponentiate(myMatrix, 2);
 ```
- 
+9. Inverse (strictly, 2x2 Matrices only)
+```cpp
+myMatrix.Inverse(myMatrix);
+```
+
+
 In upcoming `V.2.`, there will exist more member functions to implement into your project!
 <br />
 
