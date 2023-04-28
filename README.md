@@ -43,6 +43,7 @@ myMatrix.Print();
 
 <br />
 Now, you are free to do ANY matrix function for V.1.! Here is the current list of functions to use for your matrix. 
+<br />
 
 1. Scalar Multiplication
 ```cpp
