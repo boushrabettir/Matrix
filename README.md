@@ -83,9 +83,20 @@ Please note that this function will automatically put your matrix into RREF (Red
 ```cpp
 myMatrix.Rank(myMatrix);
 ```
+
+7. Trace
+Please note that this function returns the trace, so if you would like to verify the number or use this number in another operation, make sure to hold it into a variable.
+```cpp
+auto trace = myMatrix.Trace(myMatrix);
+std::cout << trace << std::endl;
+```
+
+8. Exponentiation
+```cpp
+myMatrix.Exponentiate(myMatrix, 2);
+```
  
 In upcoming `V.2.`, there will exist more member functions to implement into your project!
 <br />
 
 ### Created with 💙 by Boushra
-
