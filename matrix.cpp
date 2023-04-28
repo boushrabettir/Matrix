@@ -5,6 +5,7 @@
 #include <array>
 #include <iomanip>
 #include <iterator>
+#include <cmath>
 #include <utility>
 
 Matrix::Matrix()
@@ -35,12 +36,12 @@ std::vector<std::vector<long long> > Matrix::GetValues() {
   for (int i = 0; i < rows_; ++i) {
     for (int j = 0; j < colums_; ++j) {
       std::cout << "Enter element at (Row: " << i << ", Column: " << j << "): ";
-      if (!(std::cin >> (*matrix_)[i][j])) {
-        std::cin.clear(); // clear error flags
-        std::cin.ignore(std::numeric_limits<std::streamsize>::max(),
-                        '\n'); // discard invalid input
-        throw std::runtime_error("Your input is not valid. Please try again.");
-      }
+      // if (!(std::cin >> (*matrix_)[i][j])) {
+      //   std::cin.clear(); // clear error flags
+      //   std::cin.ignore(std::numeric_limits<std::streamsize>::max(),
+      //                   '\n'); // discard invalid input
+      //   throw std::runtime_error("Your input is not valid. Please try again.");
+      // }
       std::cin >> (*matrix_)[i][j];
     }
   }
@@ -272,6 +273,20 @@ int Matrix::Rank(Matrix &a) {
   return number_of_ranks;
 }
 
+long long Matrix::Trace(Matrix& a) {
+  long long rows = a.GetRows();
+  long long columns = a.GetColumns();
+  auto &DEF = *a.GetMatrix();
+  int increase_counter = 0;
+  long long trace = 0;
+  while(increase_counter < rows) {
+    trace += DEF[increase_counter][increase_counter];
+    increase_counter++;
+  }
+
+  return trace;
+}
+
 Matrix Matrix::Inverse(Matrix &a) {
   auto &DEF = *a.GetMatrix();
 
@@ -306,5 +321,22 @@ Matrix Matrix::Transpose(Matrix &a) {
   }
 
   a.SetNewValues(transposed);
+  return a;
+}
+
+Matrix Matrix::Exponentiation(Matrix& a, double exponent) {
+  long long rows = a.GetRows();
+  long long columns = a.GetColumns();
+  auto &DEREFERNCED = *a.GetMatrix();
+
+  
+  int counter = 0;
+  while(exponent > 0) {
+    if(std::fmod(exponent, 2) == 1) {
+    a.MultiplyMatrix(a, a);
+    }
+    exponent = exponent / 2;
+  }
+   
   return a;
 }
