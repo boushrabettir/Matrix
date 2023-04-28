@@ -28,6 +28,8 @@ std::shared_ptr<std::vector<std::vector<long long> > > Matrix::GetMatrix() const
   return matrix_;
 }
 
+
+
 std::vector<std::vector<long long> > Matrix::GetValues() {
   std::cout << "Please input your values accordingly!\n";
   for (int i = 0; i < rows_; ++i) {

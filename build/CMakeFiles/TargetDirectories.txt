@@ -1,0 +1,3 @@
+/home/boushra/Matrix/Matrix/build/CMakeFiles/rebuild_cache.dir
+/home/boushra/Matrix/Matrix/build/CMakeFiles/edit_cache.dir
+/home/boushra/Matrix/Matrix/build/CMakeFiles/runTests.dir

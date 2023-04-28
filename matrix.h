@@ -25,7 +25,6 @@ public:
     Matrix Transpose(Matrix& a);
     Matrix REF(Matrix& a, bool is_rref);
     Matrix Inverse(Matrix& a);
-    Matrix LUFactorization(Matrix& a);
     int Rank(Matrix& a);
 
     void Print() const;

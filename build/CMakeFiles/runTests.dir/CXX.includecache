@@ -1,0 +1,22 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/boushra/Matrix/Matrix/matrix.h
+array
+-
+vector
+-
+memory
+-
+
+/home/boushra/Matrix/Matrix/tests/test.cpp
+../matrix.h
+/home/boushra/Matrix/Matrix/matrix.h
+gtest/gtest.h
+-
+
