@@ -29,8 +29,6 @@ std::shared_ptr<std::vector<std::vector<long long> > > Matrix::GetMatrix() const
   return matrix_;
 }
 
-
-
 std::vector<std::vector<long long> > Matrix::GetValues() {
   std::cout << "Please input your values accordingly!\n";
   for (int i = 0; i < rows_; ++i) {
@@ -334,8 +332,63 @@ Matrix Matrix::Exponentiation(Matrix& a, double exponent) {
   while(exponent > counter) {
     a.MultiplyMatrix(a, a);
     exponent-=1;
-   
   }
 
   return a;
+}
+
+double Matrix::DotProduct(Matrix& a, Matrix& b) {
+  long long row_a = a.GetRows();
+  long long column_a = a.GetColumns();
+
+  long long row_b = b.GetRows();
+  long long column_b = b.GetColumns();
+
+  if(row_a != row_b || (column_a != 1 || column_b != 1) || column_a != column_b) {
+    throw std::runtime_error("Please check to see if your matrices are valid");
+  }
+
+  auto &DEREFERENCED_A = *a.GetMatrix();
+  auto &DEREFERENCED_B = *b.GetMatrix();
+
+ double scalar = 0;
+
+ for(long long row = 0; row < row_a; row++) {
+     scalar += DEREFERENCED_A[row][0] * DEREFERENCED_B[row][0];
+  
+ }
+
+  return scalar;
+}
+
+std::string Matrix::Orthogonal(Matrix& a, Matrix& b, Matrix& c) {
+  long long row_a = a.GetRows();
+  long long column_a = a.GetColumns();
+
+  long long row_b = b.GetRows();
+  long long column_b = b.GetColumns();
+
+  long long row_c = c.GetRows();
+  long long column_c = c.GetColumns();
+
+  auto &DEREFERENCED_A = *a.GetMatrix();
+  auto &DEREFERENCED_B = *b.GetMatrix();
+  auto &DEREFERENCED_C = *c.GetMatrix();
+
+  if(row_a != row_b || (column_a != 1 || column_b != 1 || column_c != 1) || column_a != column_b || row_a) {
+    throw std::runtime_error("Please check to see if your matrices are valid");
+}
+
+  double m_one, m_two, m_three = 0;
+  for(long long row = 0; row < row_a; row++) {
+    m_one += DEREFERENCED_A[row][0] * DEREFERENCED_B[row][0];
+    m_two += DEREFERENCED_A[row][0] * DEREFERENCED_C[row][0];
+    m_three += DEREFERENCED_B[row][0] * DEREFERENCED_C[row][0];
+  }
+
+  if(m_one == m_two == m_three) {
+    return "These matrices are orthogonal to one another";
+  }
+
+  return "These matrices are not orthogonal to one another";
 }

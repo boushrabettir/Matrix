@@ -25,7 +25,9 @@ public:
     Matrix Transpose(Matrix& a);
     Matrix REF(Matrix& a, bool is_rref);
     Matrix Inverse(Matrix& a);
-    Matrix Exponentiation(Matrix& a, double exponent);
+    Matrix Exponentiation(Matrix& a, double exponent); 
+    std::string Orthogonal(Matrix& a, Matrix& b, Matrix& c);
+    double DotProduct(Matrix& a, Matrix& b);
     long long Trace(Matrix& a);
     int Rank(Matrix& a);
 
