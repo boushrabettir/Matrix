@@ -83,6 +83,7 @@ myMatrix.Rank(myMatrix);
 ```
 
 7. Trace
+
 Please note that this function returns the trace, so if you would like to verify the number or use this number in another operation, make sure to hold it into a variable.
 ```cpp
 auto trace = myMatrix.Trace(myMatrix);
