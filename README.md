@@ -25,7 +25,7 @@ or even better. There exists several member functions that are easy to work with
 
 ### GETTING STARTED
 
-- Define the `matrix.h` file in your header
+- Define the `matrix.h` file in your header. A `main.cpp` file already exists with this header in `src/main.cpp`
 
 ```cpp
 #include "matrix.h"
@@ -60,7 +60,7 @@ myMatrix.Print();
 1. Scalar Multiplication
 
 ```cpp
-myMatrix.ScalarMultiplication(myMatrix, 3);
+myMatrix.ScalarMultiplication(3);
 ```
 
 2. Multiply Matrix
@@ -70,7 +70,7 @@ Matrix mySecondMatrix;
 
 // After doing SetSize() and GetValues() member functions...
 
-myMatrix.MultiplyMatrix(myMatrix, mySecondMatrix);
+myMatrix.MultiplyMatrix(mySecondMatrix);
 ```
 
 3. Arithmetic
@@ -78,13 +78,13 @@ myMatrix.MultiplyMatrix(myMatrix, mySecondMatrix);
 The last argument is whether or not you want to subtract or add your matrices. `true` means you want to subtract, and `false` means you want to add.
 
 ```cpp
-myMatrix.Arithmetic(myMatrix, mySecondMatrix, true);
+myMatrix.Arithmetic(mySecondMatrix, true);
 ```
 
 4. Transpose
 
 ```cpp
-myMatrix.Transpose(myMatrix);
+myMatrix.Transpose();
 ```
 
 5. REF/RREF
@@ -92,7 +92,7 @@ myMatrix.Transpose(myMatrix);
 The last argument is type boolean. If you want your matrix to be REF (Reduced Row Form) input `false`, else if you want it to be in RREF (Reduced Row Echelon Form), input `true`
 
 ```cpp
-myMatrix.REF(myMatrix, true);
+myMatrix.REF(true);
 ```
 
 6. Rank
@@ -100,7 +100,7 @@ myMatrix.REF(myMatrix, true);
 Please note that this function will automatically put your matrix into RREF (Reduced Row Echelon Form), and return the rank.
 
 ```cpp
-myMatrix.Rank(myMatrix);
+myMatrix.Rank();
 ```
 
 7. Trace
@@ -108,32 +108,32 @@ myMatrix.Rank(myMatrix);
 Please note that this function returns the trace, so if you would like to verify the number or use this number in another operation, make sure to hold it into a variable.
 
 ```cpp
-auto trace = myMatrix.Trace(myMatrix);
+auto trace = myMatrix.Trace();
 std::cout << trace << std::endl;
 ```
 
 8. Exponentiation
 
 ```cpp
-myMatrix.Exponentiate(myMatrix, 2);
+myMatrix.Exponentiate(2);
 ```
 
 9. Inverse (strictly, 2x2 Matrices only)
 
 ```cpp
-myMatrix.Inverse(myMatrix);
+myMatrix.Inverse();
 ```
 
 10. Dot Product
 
 ```cpp
-myMatrix.DotProduct(myMatrix, mySecondMatrix);
+myMatrix.DotProduct(mySecondMatrix);
 ```
 
 11. Orthogonal Test
 
 ```cpp
-myMatrix.Orthogonal(myMatrix, mySecondMatrix, myThirdMatrix);
+myMatrix.Orthogonal(mySecondMatrix, myThirdMatrix);
 ```
 
 In upcoming `V.2.`, there will exist more member functions to implement into your project!
